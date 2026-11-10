@@ -1,0 +1,39 @@
+.add-view__form label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.add-view__form {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    row-gap: 1rem;
+    padding: 1rem;
+}
+
+
+.add-view__form input,
+.add-view__form textarea,
+.add-view__form select {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #999;
+}
+
+.add-view__form textarea {
+  resize: vertical;
+  min-height: 5rem;
+}
+.add-form__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.add-view__form input:focus,
+.add-view__form textarea:focus,
+.add-view__form select:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}

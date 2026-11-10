@@ -1,0 +1,57 @@
+/*
+部分	写法	含义	例子
+Block	block	独立组件，可复用	log-book、record、controls
+Element	block__element	块的组成部分，不能独立存在	log-book__content、record__question
+Modifier	block--modifier	状态/变体	controls__toggle--paused
+*/
+.log-book {
+  position: relative;
+  width: 90%;
+  max-width: var(--log-book-max-width);   /* 420px，小屏铺满，大屏不无限拉宽 */
+       
+  margin: var(--space-md) auto;
+  /* min-height: 500px;           上下 1rem，左右 auto 居中 */
+      background-color: aliceblue;
+    padding: 0.5rem 0.25rem ;
+    transform: translateY(-2px);
+    /* box-shadow: 0px 8px 13px 0px rgba(0, 0, 0, 0.2); */
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08),   /* 近处，实 */
+  0 4px 8px rgba(0, 0, 0, 0.12),   /* 中间 */
+  0 12px 24px rgba(0, 0, 0, 0.16);
+}
+.log-book__content.container{
+  height: 400px;
+  position: relative;
+  margin-block-start: 1rem;
+  margin-block-end: 1rem;
+  display: flow-root;
+  padding:0 1rem;
+}
+.log-book__header{
+  display: flex;justify-content: space-between;
+  padding: 0.2rem 0.2rem;
+}
+   .log-book__header-userInfo {
+    display: inline-flex;
+    column-gap: 0.5rem;
+    align-items: center;
+}
+    .log-book__header-controls{
+      display: inline-flex;
+    }
+    .log-book__userInfo-avatar{
+      width: 34px;
+      height: 34px;
+    }
+ .log-book__header-controls button {
+    padding: 0.4rem 0.8rem;
+    background: transparent;
+    /* background: blanchedalmond; */
+    border-radius: 4px;
+    border: 1px solid currentColor;
+}
+       .log-book__header-controls button:hover{
+          background-color: rgba(0, 0, 0, 0.2);
+  /* outline-offset: 2px; */
+  cursor: pointer;
+    }

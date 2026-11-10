@@ -1,0 +1,36 @@
+/* src/styles/base/variables.css */
+/* 全局 CSS 变量：颜色、间距、字号、尺寸 */
+
+:root {
+  /* 颜色 */
+  --color-bg: aliceblue;
+  --color-content-bg: black;
+  --color-question: wheat;
+  --color-answer-bg: skyblue;
+  --color-answer-text: white;
+  --color-desc-bg: yellow;
+  --color-desc-text: black;
+
+  /* 间距 */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 2rem;
+
+  /* 字号 */
+  --font-sm: clamp(12px, 3.2vw, 14px);
+  --font-md: clamp(14px, 4vw, 16px);
+  --font-lg: clamp(16px, 5vw, 20px);
+
+  /* 尺寸 */
+  --log-book-max-width: 400px;
+  --log-book-height: 70dvh;
+  --answer-max-width: 300px;
+
+  /* variables.css */
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.15);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.2);
+
+}

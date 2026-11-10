@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>登录 / 注册</title>
+<style>
+  :root {
+    --color-bg: aliceblue;
+    --color-card: #fff;
+    --color-primary: #3b82f6;
+    --color-danger: #dc2626;
+    --color-success: #16a34a;
+    --color-text: #1f2937;
+    --color-muted: #6b7280;
+    --color-border: #d1d5db;
+    --radius: 8px;
+  }
+
+  * { box-sizing: border-box; }
+
+  [hidden] { display: none !important; }
+
+  body {
+    margin: 0;
+    min-height: 100dvh;
+    display: grid;
+    place-items: center;
+    padding: 1rem;
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+
+  .auth {
+    width: 100%;
+    max-width: 360px;
+    padding: 1.5rem;
+    background: var(--color-card);
+    border-radius: var(--radius);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  }
+
+  .auth__title {
+    margin: 0 0 1rem;
+    font-size: 1.5rem;
+    text-align: center;
+  }
+
+  .auth__tabs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.25rem;
+    margin-bottom: 1rem;
+    padding: 0.25rem;
+    background: #f3f4f6;
+    border-radius: var(--radius);
+  }
+
+  .auth__tab {
+    padding: 0.5rem;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: var(--color-muted);
+    font-size: 0.95rem;
+    cursor: pointer;
+  }
+
+  .auth__tab[aria-selected="true"] {
+    background: var(--color-card);
+    color: var(--color-text);
+    font-weight: 600;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+
+  .auth__form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .field__label {
+    font-size: 0.875rem;
+    color: var(--color-muted);
+  }
+
+  .field__input-wrap {
+    position: relative;
+    display: flex;
+  }
+
+  .field input {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    font-size: 16px; /* 16px 防 iOS 聚焦自动放大 */
+    background: #fff;
+  }
+
+  .field input:focus {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 1px;
+    border-color: var(--color-primary);
+  }
+
+  .field__toggle {
+    position: absolute;
+    right: 0.25rem;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 0.25rem 0.5rem;
+    border: 0;
+    background: transparent;
+    color: var(--color-muted);
+    font-size: 0.8rem;
+    cursor: pointer;
+  }
+
+  .btn {
+    padding: 0.6rem 1rem;
+    border: 0;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease, opacity 0.2s ease;
+  }
+
+  .btn--primary {
+    background: var(--color-primary);
+    color: #fff;
+  }
+
+  .btn--primary:hover:not(:disabled) {
+    background: #2563eb;
+  }
+
+  .btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .btn:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+
+  .auth__message {
+    min-height: 1.25rem;
+    margin: 0.75rem 0 0;
+    font-size: 0.875rem;
+    text-align: center;
+  }
+
+  .auth__message--error { color: var(--color-danger); }
+  .auth__message--success { color: var(--color-success); }
+</style>
+</head>
+<body>
+<main class="auth">
+  <h2 class="auth__title">题库</h2>
+
+  <div class="auth__tabs" role="tablist" aria-label="登录或注册">
+    <button type="button" class="auth__tab" role="tab" aria-selected="true" aria-controls="loginForm" data-tab="login">登录</button>
+    <button type="button" class="auth__tab" role="tab" aria-selected="false" aria-controls="registerForm" data-tab="register">注册</button>
+  </div>
+
+  <form id="loginForm" class="auth__form" novalidate>
+    <label class="field">
+      <span class="field__label">用户名</span>
+      <span class="field__input-wrap">
+        <input name="username" type="text" autocomplete="username" required minlength="3" maxlength="50">
+      </span>
+    </label>
+    <label class="field">
+      <span class="field__label">密码</span>
+      <span class="field__input-wrap">
+        <input name="password" type="password" autocomplete="current-password" required minlength="6">
+        <button type="button" class="field__toggle" data-toggle-password>显示</button>
+      </span>
+    </label>
+    <button type="submit" class="btn btn--primary">登录</button>
+  </form>
+
+  <form id="registerForm" class="auth__form" hidden novalidate>
+    <label class="field">
+      <span class="field__label">用户名（3–50 个字符）</span>
+      <span class="field__input-wrap">
+        <input name="username" type="text" autocomplete="username" required minlength="3" maxlength="50">
+      </span>
+    </label>
+    <label class="field">
+      <span class="field__label">密码（至少 6 位）</span>
+      <span class="field__input-wrap">
+        <input name="password" type="password" autocomplete="new-password" required minlength="6">
+        <button type="button" class="field__toggle" data-toggle-password>显示</button>
+      </span>
+    </label>
+    <button type="submit" class="btn btn--primary">注册</button>
+  </form>
+
+  <p id="message" class="auth__message" role="alert" aria-live="polite"></p>
+</main>
+
+<script type="module">
+  const BASE_URL = `http://${location.hostname}:8080`
+  const messageEl = document.getElementById('message');
+  const loginForm = document.getElementById('loginForm');
+  const registerForm = document.getElementById('registerForm');
+  const tabs = document.querySelectorAll('.auth__tab');
+
+  function setMessage(text, type = 'error') {
+    messageEl.textContent = text;
+    messageEl.className = `auth__message auth__message--${type}`;
+  }
+
+  function switchTab(name) {
+    tabs.forEach(tab => {
+      tab.setAttribute('aria-selected', String(tab.dataset.tab === name));
+    });
+    loginForm.hidden = name !== 'login';
+    registerForm.hidden = name !== 'register';
+    setMessage('');
+  }
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => switchTab(tab.dataset.tab));
+  });
+
+  document.querySelectorAll('[data-toggle-password]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const input = btn.parentElement.querySelector('input');
+      const isPassword = input.type === 'password';
+      input.type = isPassword ? 'text' : 'password';
+      btn.textContent = isPassword ? '隐藏' : '显示';
+    });
+  });
+
+  async function submitAuth(url, payload) {
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      // credentials: 'same-origin',
+      credentials: 'include',
+      body: JSON.stringify(payload),
+    });
+
+    if (!res.ok) {
+      let msg = `请求失败（${res.status}）`;
+      try {
+        const data = await res.json();
+        if (data.message) msg = data.message;
+      } catch {
+        // 响应体不是 JSON，保留默认提示
+      }
+      throw new Error(msg);
+    }
+  }
+
+  function withLoading(button, text, task) {
+    const original = button.textContent;
+    button.disabled = true;
+    button.textContent = text;
+    return task().finally(() => {
+      button.disabled = false;
+      button.textContent = original;
+    });
+  }
+
+  loginForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!loginForm.reportValidity()) return;
+
+    const username = loginForm.elements.username.value.trim();
+    const password = loginForm.elements.password.value;
+
+    if (!username || !password) {
+      setMessage('请填写用户名和密码');
+      return;
+    }
+
+    const button = loginForm.querySelector('button[type="submit"]');
+    try {
+      await withLoading(button, '登录中…', () =>
+        submitAuth(BASE_URL+'/api/v1/auth/login', { username, password })
+      );
+      location.href = './index.html';
+      
+    } catch (err) {
+      setMessage(err.message);
+    }
+  });
+
+  registerForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!registerForm.reportValidity()) return;
+
+    const username = registerForm.elements.username.value.trim();
+    const password = registerForm.elements.password.value;
+
+    if (username.length < 3) {
+      setMessage('用户名至少 3 个字符');
+      return;
+    }
+    if (password.length < 6) {
+      setMessage('密码至少 6 位');
+      return;
+    }
+
+    const button = registerForm.querySelector('button[type="submit"]');
+    try {
+      await withLoading(button, '注册中…', () =>
+        submitAuth(BASE_URL+'/api/v1/auth/register', { username, password })
+      );
+      registerForm.reset();
+      switchTab('login');
+      loginForm.elements.username.value = username;
+      setMessage('注册成功，请登录', 'success');
+    } catch (err) {
+      setMessage(err.message);
+    }
+  });
+
+  // 已登录直接回首页
+  (async () => {
+    try {
+      const res = await fetch(BASE_URL+'/api/v1/auth/me', { credentials: "include" });
+      if (res.ok) location.href = './index.html';
+    } catch {
+      // 未登录或网络异常，停留在登录页
+    }
+  })();
+  
+  
+</script>
+</body>
+</html>

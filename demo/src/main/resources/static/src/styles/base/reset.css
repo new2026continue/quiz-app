@@ -1,0 +1,14 @@
+/* src/styles/base/reset.css */
+/* 最小重置：去掉默认 margin、统一盒模型 */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  /* background-color: var(--color-bg); */
+  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+}

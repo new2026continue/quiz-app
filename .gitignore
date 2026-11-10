@@ -1,0 +1,21 @@
+# 编译产物
+target/
+*.jar
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# 证书和密码（敏感，绝不提交）
+ca.pem
+*.pem
+truststore.jks
+
+# 本地数据/调试文件
+data.sql
+cookies.txt
+
+# 系统文件
+.DS_Store
+Thumbs.db
