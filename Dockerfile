@@ -8,5 +8,7 @@ RUN mvn package -DskipTests -B
 FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
 COPY --from=builder /build/target/*.jar app.jar
-EXPOSE 8080
+# 原来可能是 EXPOSE 8080
+EXPOSE 80
+ENV PORT=80
 ENTRYPOINT ["java", "-jar", "app.jar"]
