@@ -4,7 +4,7 @@
 import { fetchEntries ,addOneEntry, refresh,reloadBank,fetchBankNames,QUESTIONS_PATH} from '../main.js';
 import { View } from './View.js';
 import { mainContainer , addViewTemplate , htmlElements} from '../HTMLelements.js';
-import { showToast } from './Toast.js';
+import { showToast } from './toast.js';
 export class Controls {
   #quizEngine;
   #timer;
