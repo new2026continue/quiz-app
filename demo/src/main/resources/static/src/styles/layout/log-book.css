@@ -26,6 +26,7 @@ Modifier	block--modifier	状态/变体	controls__toggle--paused
   margin-block-end: 1rem;
   display: flow-root;
   padding:0 1rem;
+    overflow: auto;
 }
 .log-book__header{
   display: flex;justify-content: space-between;

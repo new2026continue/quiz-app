@@ -159,7 +159,7 @@ async #handleDrop(){
     const entry = this.#quizEngine.getCurrent()
     addViewBankName.value = this.#quizEngine.bankName
     addViewQuestion.value = entry.question
-    addViewAnswer.value = entry.answers.join()
+    addViewAnswer.value = entry.answers.join(';')
     addViewDesc.value = entry.desc
     const   submitSaveBtn = document.getElementById('submitSaveBtn');
     const   cancelSaveBtn = document.getElementById('cancelSaveBtn');
