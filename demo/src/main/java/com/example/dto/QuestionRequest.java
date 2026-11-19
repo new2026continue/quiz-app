@@ -3,11 +3,19 @@ package com.example.dto;
 import java.util.List;
 
 public class QuestionRequest {
+    private String username;
     private String bankName;
     private String question;
     private List<String> answers;
     private String desc;
-    private String status;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
     public String getBankName() {
         return bankName;
@@ -39,13 +47,5 @@ public class QuestionRequest {
 
     public void setDesc(String desc) {
         this.desc = desc;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 }

@@ -4,6 +4,17 @@ import java.util.List;
 
 public class QuestionResponse {
     private Long id;
+    private String question;
+    private List<String> answers;
+    private String desc;
+
+    public QuestionResponse(Long id,String question, List<String> answers, String desc)
+    {
+        this.question = question;
+        this.answers = answers;
+        this.desc = desc;
+        this.id =id;
+    }
 
     public Long getId() {
         return id;
@@ -13,31 +24,27 @@ public class QuestionResponse {
         this.id = id;
     }
 
-    private String question;
-    private List<String> answers;
-    private String desc;
-    private String status;
-
-    public QuestionResponse(Long id,String question, List<String> answers, String desc, String status) {
-        this.question = question;
-        this.answers = answers;
-        this.desc = desc;
-        this.status = status;
-        this.id =id;
+    public String getQuestion() {
+        return question;
     }
 
-    public String getQuestion() { return question; }
-    public List<String> getAnswers() { return answers; }
-    public String getDesc() { return desc; }
-    public String getStatus() { return status; }
+    public void setQuestion(String question) {
+        this.question = question;
+    }
 
-    @Override
-    public String toString() {
-        return "QuestionResponse{" +
-                "question='" + question + '\'' +
-                ", answers=" + answers +
-                ", desc='" + desc + '\'' +
-                ", status='" + status + '\'' +
-                '}';
+    public List<String> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(List<String> answers) {
+        this.answers = answers;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 }

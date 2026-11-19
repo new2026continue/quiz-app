@@ -4,7 +4,7 @@
 export class Timer {
   #callback;
   #intervalMs;
-  #timerId;
+  #timerId; // 调度器ID
 
   /**
    * @param {Function} callback - 每次到点执行的函数

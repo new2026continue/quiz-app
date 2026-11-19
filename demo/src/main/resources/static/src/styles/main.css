@@ -3,6 +3,7 @@
 @import './layout/log-book.css';
 @import './components/record.css';
 @import './components/controls.css';
-@import './components/toast.css';
+@import './components/desc.css';
 @import './components/add-view.css';
 @import './components/button.css';
+@import './components/toast.css';

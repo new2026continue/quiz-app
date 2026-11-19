@@ -4,6 +4,9 @@ import com.example.dto.QuestionRequest;
 import com.example.dto.QuestionResponse;
 
 import com.example.service.QuestionService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+import org.apache.catalina.Session;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,18 +24,19 @@ public class QuestionController {
 
     }
     @GetMapping("/banks")
-    public List<String> getBanks() {
-        return questionService.getAllBankNames();
+    public List<String> getBanks(@RequestParam("username") String username) {
+
+        return questionService.getAllBankNameByUsername(username);
     }
     @GetMapping
-    public List<QuestionResponse> list(@RequestParam(required = false) String bank)
+    public List<QuestionResponse> list(@RequestParam(required = false) String bank, @RequestParam("username") String username)
     {
-
-        return questionService.findRawEntries(bank);
+        System.out.println(username+'l');
+        return questionService.findRawEntries(bank, username);
     }
     @GetMapping("/{id}")
     public QuestionResponse one(@PathVariable("id") Long id){
-        return questionService.findQuestionById(id);
+        return questionService.findOneQuestionById(id);
     }
     @PostMapping
     public QuestionResponse postOne(@RequestBody QuestionRequest questionRequest){
@@ -41,6 +45,7 @@ public class QuestionController {
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
+
         boolean deleted = questionService.removeQuestion(id);
         if (!deleted) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();

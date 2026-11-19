@@ -9,7 +9,7 @@ public class QuestionEntry {
 
     @TableId(type = IdType.AUTO)
     private Long id;
-
+    private Long userId;
     private String bankName;
 
     private String question;
@@ -18,41 +18,51 @@ public class QuestionEntry {
 
     private String description;
 
-    private String status;
+    public Long getId() {
+        return id;
+    }
 
-    private Integer sortOrder;
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public Long getUserId() {
+        return userId;
+    }
 
-    public String getBankName() { return bankName; }
-    public void setBankName(String bankName) { this.bankName = bankName; }
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
 
-    public String getQuestion() { return question; }
-    public void setQuestion(String question) { this.question = question; }
+    public String getBankName() {
+        return bankName;
+    }
 
-    public String getAnswers() { return answers; }
-    public void setAnswers(String answers) { this.answers = answers; }
+    public void setBankName(String bankName) {
+        this.bankName = bankName;
+    }
 
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
+    public String getQuestion() {
+        return question;
+    }
 
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
+    public void setQuestion(String question) {
+        this.question = question;
+    }
 
-    public Integer getSortOrder() { return sortOrder; }
-    public void setSortOrder(Integer sortOrder) { this.sortOrder = sortOrder; }
+    public String getAnswers() {
+        return answers;
+    }
 
-    @Override
-    public String toString() {
-        return "QuestionEntry{" +
-                "id=" + id +
-                ", bankName='" + bankName + '\'' +
-                ", question='" + question + '\'' +
-                ", answers='" + answers + '\'' +
-                ", description='" + description + '\'' +
-                ", status='" + status + '\'' +
-                ", sortOrder=" + sortOrder +
-                '}';
+    public void setAnswers(String answers) {
+        this.answers = answers;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

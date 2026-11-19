@@ -1,4 +1,40 @@
+/* .record {
+  display: flex;
+  flex-direction: column;
+  row-gap: var(--space-md);
+  align-items: center;
+  margin-block-start: var(--space-lg);
+  position: relative;
+}
 
+.record__question {
+  color: var(--color-question);
+  font-size: var(--font-lg);
+  margin: 0;
+}
+
+.record__answer {
+  color: var(--color-answer-text);
+  background-color: var(--color-answer-bg);
+  width: 100%;
+  max-width: var(--answer-max-width);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: 4px;
+}
+
+.record__description {
+  color: var(--color-desc-text);
+  font-size: var(--font-sm);
+  margin: 0;
+}
+
+.record--mastered {
+  opacity: 0.85;
+}
+
+.record--needs-mastery {
+  opacity: 1;
+} */
 
 .record{
 

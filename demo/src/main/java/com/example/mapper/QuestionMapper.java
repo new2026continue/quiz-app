@@ -13,11 +13,15 @@ public interface QuestionMapper extends BaseMapper<QuestionEntry> {
 
 
     @Select("SELECT * FROM question_bank WHERE bank_name = #{bankName} " +
-            "ORDER BY id ASC")
-    List<QuestionEntry> selectByBank(@Param("bankName") String bankName);
+            "and user_id = #{userId} ORDER BY id ASC")
+    List<QuestionEntry> selectByBankNameAndUserId(@Param("bankName") String bankName, Long userId);
 
-    @Select("SELECT bank_name FROM question_bank\n" +
+    @Select("SELECT bank_name FROM question_bank where user_id=#{userId} or user_id=0\n" +
             "GROUP BY bank_name\n" +
             "ORDER BY MIN(id)")
-    List<String> selectAllBankNames();
+    List<String> selectAllBankName(Long userId);
+    @Select("""
+            select * from  question_bank where id = #{id} and user_id = #{userId}
+            """)
+    QuestionEntry selectOneByIdAndUserId(Long id, Long userId);
 }

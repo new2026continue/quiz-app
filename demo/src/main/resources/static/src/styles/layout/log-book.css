@@ -5,10 +5,10 @@ Element	block__element	块的组成部分，不能独立存在	log-book__content
 Modifier	block--modifier	状态/变体	controls__toggle--paused
 */
 .log-book {
-  position: relative;
+  position: relative;min-width: 370px;
   width: 90%;
   max-width: var(--log-book-max-width);   /* 420px，小屏铺满，大屏不无限拉宽 */
-       
+       min-height: 652px;
   margin: var(--space-md) auto;
   /* min-height: 500px;           上下 1rem，左右 auto 居中 */
       background-color: aliceblue;
@@ -26,7 +26,8 @@ Modifier	block--modifier	状态/变体	controls__toggle--paused
   margin-block-end: 1rem;
   display: flow-root;
   padding:0 1rem;
-    overflow: auto;
+  overflow: auto;
+  scrollbar-width: none;
 }
 .log-book__header{
   display: flex;justify-content: space-between;
@@ -39,20 +40,45 @@ Modifier	block--modifier	状态/变体	controls__toggle--paused
 }
     .log-book__header-controls{
       display: inline-flex;
+      align-items: center;
     }
     .log-book__userInfo-avatar{
       width: 34px;
       height: 34px;
     }
- .log-book__header-controls button {
-    padding: 0.4rem 0.8rem;
-    background: transparent;
-    /* background: blanchedalmond; */
-    border-radius: 4px;
-    border: 1px solid currentColor;
+#logoutBtn {
+    padding: 4px;
+ background-origin: content-box;
+    width: 32px;
+    height: 32px;
+    background-image: url(../../../images/exit1-32--2c2c2c.png);
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: contain;
+    background-color: transparent;
+
+    /* box-sizing: content-box; */
+
+
+    border: none;
+
 }
-       .log-book__header-controls button:hover{
-          background-color: rgba(0, 0, 0, 0.2);
-  /* outline-offset: 2px; */
+#logoutBtn:active{
+  transform: scale(0.97);
+}
+#logoutBtn:hover{
   cursor: pointer;
-    }
+  background-color: rgba(0, 0, 0, 0.16);
+}
+
+.log-book__content--empty::before {
+    content: '暂无记录';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: gray;
+    font-weight: 400;
+    font-size: 1.1rem;
+    letter-spacing: 2px;
+}

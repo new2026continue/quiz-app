@@ -5,8 +5,11 @@ import com.example.dto.RegisterRequest;
 import com.example.entity.AppUser;
 import com.example.service.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -51,19 +54,26 @@ public class AuthController {
         ));
     }
 
+
     @PostMapping("/logout")
-    public ResponseEntity<Void> logout(HttpServletRequest request) {
+    public ResponseEntity<Void> logout(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession(false);
         if (session != null) {
-            System.out.println("销毁 Session，id=" + session.getId()
-                    + "，userId=" + session.getAttribute("userId"));
-            session.invalidate();
-        } else {
-            System.out.println("没有 Session，无需销毁");
+            try {
+                session.invalidate();
+            } catch (IllegalStateException ignored) {
+                // 已被销毁，视为已登出
+            }
         }
-        if (session != null) {
-            session.invalidate();
-        }
+
+        // 让浏览器也清掉 JSESSIONID
+        ResponseCookie cookie = ResponseCookie.from("JSESSIONID", "")
+                .path("/")
+                .maxAge(0)
+                .httpOnly(true)
+                .build();
+        response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+
         return ResponseEntity.noContent().build();
     }
 

@@ -3,79 +3,105 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>mylogbook</title>
-  <link rel="icon" href="./image/tree.png">
+  <title>首页</title>
   <link href="./src/styles/main.css" rel="stylesheet">
 </head>
 <body>
 
   <div class="log-book" id="logBook" >
-    <!-- 描述角标：main.js 会更新它的 textContent -->
-    <header class="log-book__header">
+ <header class="log-book__header">
       <span class="log-book__header-userInfo" id="logBookLogo" >
         <span class="log-book__userInfo-avatar">
-          <img src="./image/tree.png" alt="logo" width="100%" height="100%">
+          <img src="./images/tree.png" alt="logo" width="100%" height="100%">
         </span>
         
-        <span class="log-book__userInfo-username">未登录, 仅能浏览, <a href="auth.html">去登录</a>
+        <span class="log-book__userInfo-username">仅浏览, <a href="auth.html">去登录</a>
         </span>
       </span>
       
       <div class="log-book__header-controls">
-        
-        <button id="logoutBtn">退出</button>
+        <button id="logoutBtn">
+          
+        </button>
+       
       </div>
     </header>
-    <!-- RecordView 的挂载容器 -->
-    <div class="log-book__content container">
       
-    </div>
-    <!-- 控件区 -->
-    <div class="log-book__controls controls">      
-      <button id="addBtn">添加</button>   
-      <button id="deleteCurrent">删除</button>
-      <button id="editCurrent">编辑</button>
-      <button id="nextBtn" >切换</button>
-      <select id="quizSelect" class="controls__quiz-select">
-        <option value="english">英语</option>
-        <option value="css">CSS</option>
-      </select>
-      <button id="toggleBtn" aria-pressed="false" class="controls__toggle-btn">自动</button>
-      <label>
-        自动切换<input type="number" id="intervalInput" step="1" />s/次
-      </label>
-      <label>
-       当前第 <input type="number"  id="jumpInput" /> 条记录
-      </label>    
-    </div>
+   <main class="log-book__main">
+      <!-- RecordView 的挂载容器 -->
+      <div class="log-book__content container">
+        
+      </div>
 
+      <!-- 控件区 -->
+      <div class="log-book__controls controls"> 
+        <div class="controls__btn-wrapper">
+          <button id="toggleAutoBtn" aria-pressed="false" class="controls__toggle-btn"></button>
+          <span id="autoToggleBtnText">自动</span>
+        </div>
+        <div class="controls__btn-wrapper">     
+          <button id="addBtn"></button>   
+          <span id="addBtnText">添加</span>
+        </div>
+        <div class="controls__btn-wrapper">     
+          <button id="deleteCurrentBtn"></button>   
+          <span id="deleteCurrentBtnText">删除</span>
+        </div>
+        <div class="controls__btn-wrapper">     
+          <button id="editCurrentBtn"></button>   
+          <span id="editCurrentBtnText">编辑</span>
+        </div>
+        <div class="controls__btn-wrapper">     
+          <button id="nextBtn" ></button>
+          <span id="nextBtnText">切换</span>
+        </div>
+
+        <select id="bankSelect" class="controls__bank-select">
+          <option></option>
+
+        </select>
+        
+        <label>
+          切换<input type="number" id="intervalInput" step="1" />s/次
+        </label>
+        <label>
+        第 <input type="number"  id="jumpInput" /> 条记录
+        </label>    
+      </div>
+    </main>
     <!-- RecordView 的模板 -->
     <template id="record-template">
-      <article class="record record--mastered record--needs-mastery">
+      <article class="record">
         <h3 class="record__question"></h3>
         <span class="record__answer"></span>
         <p class="record__description"></p>
       </article>
     </template>
-    <template id="add-view-template">
-      <form class="add-view__form">
-        <label>题库 <input name="bankName" value="english" required id="addViewBankName"></label>
-        <label>问题 <input name="question" required id="addViewQuestion"></label>
-        <label>答案（以;结束）
-          <textarea name="answers" rows="3" id="addViewAnswer">
+
+    <template id="recordEditorTemplate">
+      <h2 id="recordEditorTitle" style="text-align: center;margin-block-end: 0.5rem;"></h2>
+      <form class="record-editor__form">
+        <label>题库 (自动添加) <input name="bankName" value="english" required id="bankNameInput"></label>
+        <label>问题 <input name="question" required id="questionInput"></label>
+        <label>答案（以;分隔）
+          <textarea name="answers" id="answersInput">
 
           </textarea>
         </label>
-        <label>描述 <input name="desc" id="addViewDesc"></label>
+        <label>描述 
+          <textarea name="description" id="descriptionInput" >
+
+          </textarea>
+        </label>
       
-        <div class="add-form__actions">
-          <button type="submit" class="button" id="submitSaveBtn">提交</button>
+        <div class="record-editor__actions">
+          <button type="submit" class="button" id="submitSaveBtn">保存</button>
           <button type="button" class="button" id="cancelSaveBtn">取消</button>
         </div>
       </form>
     </template>
   </div>
-
+<!-- form.reset() -->
   <!-- 唯一入口：type="module" 必须写，否则 import 不生效 -->
   <script type="module" src="./src/main.js"></script>
 

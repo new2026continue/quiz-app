@@ -1,18 +1,37 @@
-
+/* .log-book__controls{
+  height: 165px;
+} */
 
 
 .log-book__controls button {
     cursor: pointer;
-    padding: 0.5rem 1rem;
-    border: 1px solid currentColor;
+  
+
    
     background: transparent;
-    border-radius: 4px;
-    max-width: 5rem;
+    /* border-radius: 4px; */
+    max-width: 3rem;
+    width: 2.2rem;
+    height: 2.2rem;
+    background-position: center;
+    background-size: contain;
+    /* border-radius: 50%; */
+    border: none;
+    /* padding: 0; */
+    background-origin: content-box;
+
 }
 .controls select:focus-visible {
   outline: 2px solid #3b82f6;
   outline-offset: 2px;
+}
+.controls select:blur{
+  outline-color: transparent;
+  transition: outline-color 3s ;
+}
+.controls input:blur{
+  outline-color: transparent;
+  transition: outline-color 3s ;
 }
 .controls button:focus-visible {
   outline: 2px solid #3b82f6;
@@ -27,9 +46,7 @@
   
 }
 
-.controls input:focus {
-  outline: 2px solid #3b82f6;
-} 
+
 .controls input:focus {
   outline: 2px solid #3b82f6;
   outline-offset: 2px;
@@ -37,23 +54,24 @@
 
 .log-book__controls {
     display: grid;
-    grid-template-columns: repeat(4,1fr);
+    grid-template-columns: repeat(5,1fr);
     row-gap: 0.75rem;
     column-gap: 1rem;
     align-items: center;
     padding: 1rem;
-    /* justify-items: center; */
+    justify-items: center;
 }
 
 .log-book__controls label{
-  grid-column: span 2;
+  grid-column: span 3;
   white-space: nowrap;
   display: flex;
   align-items: center;
+  justify-self: start;
 }
 .log-book__controls input[type="number"] {
-  min-width: 2rem;
-  max-width: 3rem;
+  min-width: 4rem;
+  max-width: 4rem;
     padding: 0.25rem 0.5rem;
   border: 1px solid #999;
   border-radius: 4px;
@@ -69,5 +87,41 @@
 
 .controls__toggle-btn.controls__toggle-btn--active{
     outline: 2px solid #3b82f6;
-  outline-offset: 2px;
+  /* outline-offset: 4px; */
+}
+#bankSelect {
+    padding: 0.25rem;
+    grid-column: 4/-1;
+    justify-self: end;
+}
+.controls__btn-wrapper{
+  width: 2.4rem;
+  text-align: center;
+}
+
+
+#toggleAutoBtn{
+  background-image: url(../../../images/auto-toggle1-32-2c2c2c.png);
+  background-repeat: no-repeat;
+  border-radius: 50%;
+}
+
+#addBtn{
+  background-image: url(../../../images/add1-32-2c2c2c.png);
+  background-repeat: no-repeat;
+}
+#deleteCurrentBtn{
+  background-image: url(../../../images/drop1-32-2c2c2c.png);
+  background-repeat: no-repeat;
+}
+
+#editCurrentBtn{
+  background-image: url(../../../images/edit1-32-2c2c2c.png);
+  background-repeat: no-repeat;
+}
+
+#nextBtn{
+
+  background-image: url(../../../images/toggle1-32-2c2c2c.png);
+  background-repeat: no-repeat;
 }

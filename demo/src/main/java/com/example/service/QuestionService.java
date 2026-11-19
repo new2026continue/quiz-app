@@ -2,7 +2,9 @@ package com.example.service;
 
 import com.example.dto.QuestionRequest;
 import com.example.dto.QuestionResponse;
+import com.example.entity.AppUser;
 import com.example.entity.QuestionEntry;
+import com.example.mapper.AppUserMapper;
 import com.example.mapper.QuestionMapper;
 import org.springframework.stereotype.Service;
 
@@ -15,15 +17,23 @@ import java.util.List;
 
 @Service
 public class QuestionService {
-
+    private final AppUserMapper appUserMapper;
     private final QuestionMapper questionMapper;
     private final ObjectMapper objectMapper;
-    public QuestionService(QuestionMapper questionMapper,ObjectMapper objectMapper) {
+    public QuestionService(AppUserMapper appUserMapper, QuestionMapper questionMapper, ObjectMapper objectMapper) {
+        this.appUserMapper = appUserMapper;
         this.questionMapper = questionMapper;
         this.objectMapper = objectMapper;
+
     }
-    public List<QuestionResponse> findRawEntries(String bankName) {//shift+f6
-        List<QuestionEntry> entries = questionMapper.selectByBank(bankName);
+    public List<QuestionResponse> findRawEntries(String bankName, String username) {//shift+f6
+        AppUser user = appUserMapper.selectByUsername(username);
+        Long userId = 0L;
+        if (user != null && !"common".equals(bankName)) {
+           userId = user.getId();
+        }
+
+        List<QuestionEntry> entries = questionMapper.selectByBankNameAndUserId(bankName, userId);
         List<QuestionResponse> result = new ArrayList<>();
         for(QuestionEntry entry: entries){
            result.add(toDto(entry));
@@ -31,14 +41,14 @@ public class QuestionService {
 
         return result;
     }
-
-    public QuestionResponse findQuestionById(Long id) {
+    public QuestionResponse findOneQuestionById(Long id){
         QuestionEntry entry = questionMapper.selectById(id);
         if (entry == null) {
             return null;
         }
         return toDto(entry);
     }
+
     private QuestionResponse toDto(QuestionEntry entry) {
         List<String> answers;
         try {
@@ -55,8 +65,7 @@ public class QuestionService {
                 entry.getId(),
                 entry.getQuestion(),
                 answers,
-                entry.getDescription(),
-                entry.getStatus()
+                entry.getDescription()
         );
     }
     public QuestionResponse createOne(QuestionRequest request) {
@@ -83,15 +92,25 @@ public class QuestionService {
         entry.setQuestion(request.getQuestion());
         entry.setAnswers(answersJson);
         entry.setDescription(request.getDesc());
-        entry.setStatus(request.getStatus() == null ? "needs-mastery" : request.getStatus());
+        String username = request.getUsername();
+        Long userId = 0L;
+        if(username!=null && !"common".equals(request.getBankName())){
+           userId= appUserMapper.selectByUsername(username).getId();
+        }
+       entry.setUserId(userId);
 
         questionMapper.insert(entry);
 
         return toDto(entry);
     }
 
-    public List<String> getAllBankNames() {
-        return questionMapper.selectAllBankNames();
+    public List<String> getAllBankNameByUsername(String username) {
+        AppUser user = appUserMapper.selectByUsername(username);
+        Long id = 0L;
+        if (user != null) {
+            id = user.getId();
+        }
+        return questionMapper.selectAllBankName(id);
     }
     public boolean removeQuestion(Long id) {
         QuestionEntry entry = questionMapper.selectById(id);
@@ -115,9 +134,6 @@ public class QuestionService {
             }
             if (request.getDesc() != null) {
                 entry.setDescription(request.getDesc());
-            }
-            if (request.getStatus() != null && !request.getStatus().isBlank()) {
-                entry.setStatus(request.getStatus());
             }
 
             if (request.getAnswers() != null) {
