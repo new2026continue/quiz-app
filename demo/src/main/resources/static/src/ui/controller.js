@@ -109,13 +109,14 @@ _handlers.handleDropClick = async function()
       _quizEngine.removeCurrentEntry()
       
       showToast('删除成功','success')
-      refreshBankList()
+      await refreshBankList()
       
       if(isOne){
         _view.clear() // 清空容器
         _elements.jumpInput.value = ''
 
-        _view.renderEmpty() // css 渲染空状态
+        // _view.renderEmpty() // css 渲染空状态
+          _handlers.handleBankChange(null, 'common')
       }
       else if(isLast){
         // 如果删除的是最后一条，渲染上一条
@@ -128,6 +129,9 @@ _handlers.handleDropClick = async function()
         _view.renderEntry(_quizEngine.getCurrentEntry())
       }
       }catch(error){
+        if(error.message.indexOf('404') != -1 && (quizEngines.get('common')===_quizEngine)){
+            error.message = '没有权限'
+        }
         showToast(`${error.message}`,'error')
       }     
   }
@@ -208,29 +212,28 @@ _handlers.handleSubmitSaveClick = async function(e)
     {// 新增
       showToast('新增中...','info',6000)
       // 检查题库是否存在
-        const hasBank= (await requestApi.fetchAllBankName(sessionStorage.getItem('username'))).includes(entry.bankName)
-        entry.username = sessionStorage.getItem('username')
+        const hasBank= (await requestApi.fetchAllBankName()).includes(entry.bankName)
+
         const result = await requestApi.addOneQuestion(entry)
-
-
-        if(hasBank===false){
-        refreshBankList()
-      
-        
-      }else{
-      
-        reloadBank(entry.bankName)
-      }
-      addBank(entry.bankName)
-      _handlers.handleBankChange(undefined,entry.bankName)
-      _handlers.handleCancelSaveClick()
-      showToast('新增成功','success')
+        // 新增成功后
+        if(hasBank){
+            reloadBank(entry.bankName)
+        }else{
+            await refreshBankList();
+        }
+                                 // 重建下拉框 + 所有引擎
+        _elements.bankSelect.value = entry.bankName;      // 下拉框选中新题库
+        await _handlers.handleBankChange(null, entry.bankName);   // 切过去并渲染
+        _handlers.handleCancelSaveClick();                 // 关闭表单
+        showToast('新增成功', 'success');
       
     }
        
     }catch(error){
+      if(error.message.indexOf('404') != -1 && (quizEngines.get('common')===_quizEngine)){
+          error.message = '没有权限'
+      }
       showToast(`${error.message}`,'error')
-      console.log(error)
     }finally{
        
     }
@@ -274,16 +277,13 @@ _handlers.handleJumpInput = function(e) {
     
   }
 
- _handlers.handleBankChange = function(e,bank)
+ _handlers.handleBankChange = async function(e,bank)
  {
     const bankName = bank ?? _elements.bankSelect.value;
-   
-    
     const quizEngine = quizEngines.get(bankName);
-   
-    
     if (!quizEngine) return;
     controller.setQuizEngine(quizEngine);
+     _elements.bankSelect.value = bankName;
     if(quizEngine.getEntriesLength() === 0){
       _view.renderEmpty()
       return
@@ -299,23 +299,23 @@ async function reloadBank(bankName) {
     return
   }
   try {
-    const freshEntries = await requestApi.fetchAllQuestionByBankName(bankName,sessionStorage.getItem('username'));
+    const freshEntries = await requestApi.fetchAllQuestionByBankName(bankName);
     quizEngines.get(bankName).setEntries(freshEntries)
     
   } catch (error) {
-    console.error('reloadBank 失败：', error);
+    showToast('reloadBank 失败：'+error.message,'error');
     return;
   }
 }
 
 // 新增：题库不存在，建引擎 + 加下拉框 + 切过去
-async function addBank(bankName,username) {
+async function addBank(bankName) {
   if (quizEngines.has(bankName)) {
     return reloadBank(bankName);   // 已存在，退化成重载
   }
   let freshEngine;
   try {
-    const freshEntries = await requestApi.fetchAllQuestionByBankName(bankName,username);
+    const freshEntries = await requestApi.fetchAllQuestionByBankName(bankName);
     freshEngine = new QuizEngine(freshEntries);
     quizEngines.set(bankName, freshEngine);
     return freshEngine
@@ -328,7 +328,7 @@ async function addBank(bankName,username) {
 export const refreshBankList = async () => 
 { const bankNames = []
   try{
-   bankNames.push(...(await requestApi.fetchAllBankName(sessionStorage.getItem('username'))));
+   bankNames.push(...(await requestApi.fetchAllBankName()));
   }catch(error){
     showToast(`${error.message}`,'error')
   }
@@ -342,9 +342,10 @@ export const refreshBankList = async () =>
   }
 
   _elements.bankSelect.replaceChildren(fragment); 
-  await addBank(bankNames[0],undefined)
-  for(let i =1;i<bankNames.length;i++){
-    addBank(bankNames[i],sessionStorage.getItem('username'))
+  await addBank(bankNames[0])
+    await addBank(bankNames[bankNames.length-1])
+  for(let i =1;i<bankNames.length-1;i++){
+    addBank(bankNames[i])
   }
 };
 
