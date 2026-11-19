@@ -1,13 +1,6 @@
-/* .log-book__controls{
-  height: 165px;
-} */
-
 
 .log-book__controls button {
     cursor: pointer;
-  
-
-   
     background: transparent;
     /* border-radius: 4px; */
     max-width: 3rem;
