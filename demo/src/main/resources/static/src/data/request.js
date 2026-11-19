@@ -4,8 +4,8 @@
 
 
 // 第一层：服务源（协议 + 主机 + 端口）
-const API_ORIGIN = `http://${globalThis.location?.hostname ?? 'localhost'}:8080`;
-
+// const API_ORIGIN = `http://${globalThis.location?.hostname ?? 'localhost'}:8080`;
+const API_ORIGIN = ``;
 
 // 第二层：API 根（含版本），所有接口共享
 const API_BASE = `${API_ORIGIN}/api/v1`;
