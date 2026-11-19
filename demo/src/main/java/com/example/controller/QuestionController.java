@@ -31,7 +31,6 @@ public class QuestionController {
     @GetMapping
     public List<QuestionResponse> list(@RequestParam(required = false) String bank, @RequestParam("username") String username)
     {
-        System.out.println(username+'l');
         return questionService.findRawEntries(bank, username);
     }
     @GetMapping("/{id}")

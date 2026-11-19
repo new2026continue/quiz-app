@@ -1,10 +1,10 @@
 // src/main.js
 // 入口：只负责组装，不写业务逻辑
 
-import { QuizEngine } from './core/QuizEngine.js';
+
 import { Timer } from './core/Timer.js';
 import { RecordView } from './ui/RecordView.js';
-import { controller, refreshBankList, reloadBank, addBank } from './ui/Controls.js';
+import { controller, refreshBankList, reloadBank, addBank } from './ui/controller.js';
 import { fetchCurrentUserInfo } from './data/request.js';
 import { showToast } from "./ui/toast.js";
 
