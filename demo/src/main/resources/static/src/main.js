@@ -9,7 +9,7 @@ import { fetchCurrentUserInfo } from './data/request.js';
 import { showToast } from "./ui/toast.js";
 
 
-// ===== 2. 业务层 =====
+
 
 // ===== 3. 视图层 =====
 const template = document.getElementById('record-template');

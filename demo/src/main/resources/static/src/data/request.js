@@ -120,7 +120,7 @@ const register = async (username, password) => {
   if (!response.ok) {
     throw new Error(`注册失败：${response.status}`);
   }
-  if (response.status === 204 || response.status === 200) {
+  if (response.status > 200 && response.status < 300) {
     return null;
   }
   return response.json();
